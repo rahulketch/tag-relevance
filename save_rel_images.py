@@ -1,6 +1,4 @@
 
-# coding: utf-8
-
 # In[1]:
 
 from nltk.corpus import wordnet as wn
@@ -45,56 +43,16 @@ for i in range(no_of_images):
                     image_rel_q[tag].append(i)
                 else:
                     image_rel_q[tag] = []
-                    image_rel_q[tag].append(i)          
-            
-            
-            
-                
-        
+                    image_rel_q[tag].append(i)
 
 
-# In[10]:
 
-#ground_rank_q = dict.fromkeys([])
-count = len(rel_tags)
 for tag in rel_tags:
-    #ground_rank_q = dict.fromkeys([])    
-    print(count,tag,len(image_rel_q[tag]))
-    count-=1
-    if count>=343:
-        continue
-    # if len(image_rel_q[tag])>60:
-    #     continue
-    #print(count)
-    #print(len(image_rel_q[tag]))
-    
-    #ground_rank_q[tag] = sps.lil_matrix((no_of_images,no_of_images))
-    output_matrix = sps.lil_matrix((no_of_images,no_of_images))
-    for i in range(no_of_images):
-        if i not in image_rel_q[tag]:
-            for j in image_rel_q[tag]:
-                #something = 0
-                output_matrix[i,j] = -1
-                output_matrix[j,i] = 1
+    print(tag)
+    print(len(image_rel_q[tag]))
+    f = open('../relevant_images/{}'.format(tag),'wb')
+    pickle.dump(image_rel_q[tag],f)
+    f.close()
 
-    print("Done Calculation")
-    print(output_matrix.data.nbytes)
-    g = open('../groundrank/rank_'+tag,'wb')
-    pickle.dump(output_matrix,g)
-    g.close()
-    print("Done Pickle")
-
-
-                
-
-                
-                
-        
-
-
-
-
-# In[ ]:
-
-
-
+            
+            
