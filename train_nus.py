@@ -5,8 +5,43 @@ path_nus = '/home/kiran/Rahul/NUS-WIDE-Lite/'
 import scipy.sparse as sps
 import pickle
 import numpy as np
+def frob(A,B):
+	return np.trace(np.dot(A.transpose(),B))
+def f(tag,Y,U,v):
+	return frob(np.kron(np.dot(U,U.transpose()),v),np.kron(eq(tag),psi(tag,Y)))
+
+def eq(tag):
+	global query_tag_index1k
+	global m
+	print(m)
+	temp = np.zeros((1,m))
+	print(temp)
+	temp[0][query_tag_index1k[tag]] = 1.0
+	return np.matrix(temp)
+def psi(tag,Y):
+	global phi
+	global relevant_images_tag
+	global s
+	sum = 0.0*phi[0]
+	for i in relevant_images_tag[tag]:
+		for j in range(s):
+			if j not in relevant_images_tag[tag]:
+				sum = sum + Y[i][j]*(phi[i]-phi[j])/(len(relevant_images_tag[tag])*(s-len(relevant_images_tag[tag])))
+	return sum
+def func_optimize(v,U,slack,lambda):
+	return (lambd/2.0)*((frob(v,v)) + frob(U,U)) + slack
+def f_max_constraint(tag,U,v,image):
+	global phi
+	return frob(np.kron(np.dot(U,U.transpose()),v),np.kron(eq(tag),phi[image]))
+
+# def cutting_plane(U,v,slack,query_tags):
+# 	w = []
+# 	for tag in query_tags:
+
+
+
 #import functions as fn
-k = 50 # nearest neighbours
+k = 50 #nearest neighbours
 p = 100 #latent space dimension
 lamb = 100 # parameter for optimization
 m = 1000 #no of tags
@@ -43,9 +78,13 @@ for query in query_tags:
 s = len(temp) #no of images
 mu = 4*s
 #print(no_of_images)
-
+"""Initialize the quantities"""
 U = np.matrix(np.ones((p,m)))
 v = np.matrix(np.ones((k,1)))
-print(U)
-#print(v)
+
+
+
+
+
+
 

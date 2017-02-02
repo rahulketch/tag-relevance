@@ -32,7 +32,7 @@ for i in range(s):
 	if i%1000==0:
 		print(i)
 print('Time to Pickle')
-g = open('Phi_x.pickle','wb')
+g = open('Phi_x.pickle'+'temp','wb')
 pickle.dump(phi_x,g)
 g.close()
 		
